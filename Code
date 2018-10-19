@@ -1,0 +1,120 @@
+import random
+#set all the variables needed
+target = []
+extra = []
+#the code breaks if this is empty
+subject = ["a cat"]
+place = []
+sTag = 0 
+death = 1
+location = ["a castle", "a desert", "underground", "a forest"]
+highloc = ["underwater", "in the sky", "atop a mountain", "a frozen tundra", "inside a volcano"]
+
+#level 5 is the minimum for dangerous environments
+level = input("Are your PCs at least level 5? y/n ")
+if level == "yes" or "y":
+    CR = 1
+else:
+    CR = 0
+if CR == 1:
+    location.extend(highloc)
+
+#victim more likely dead in dangerous locations
+questLoc = random.choice(location)
+deathchance = 0
+if questLoc == ["a frozen tundra", "underwater", "inside a volcano"]:
+    danger = 1
+else:
+    danger = 0
+
+#different kinds of missions available
+
+mission = ["recover", "locate", "collect", "explore", "destroy"]
+questM = random.choice(mission)
+
+#victims, tied off of locate mission
+viclist = ["abby", "benjamin"]
+victim = random.choice(viclist)
+extravictim = ["The victim is a lycanthrope."]
+
+#treasure, tied off of recover mission
+treasurelist = ["gems", "magical horn"]
+treasure = random.choice(treasurelist)
+extratreasure = ["The treasure is actually haunted." , "The treasure is of personal importance to a PC"]
+
+#random objects, tied off of collect mission
+collectlist = ["herbs", "tithe"]
+collection = random.choice(collectlist)
+#who to return them to; cat is already included
+collectorlist = ["a witch", "a dragon", "some schoolchildren"]
+collector = random.choice(collectorlist)
+extracollect = ["The objects are being held in a fey wood"]
+
+#areas, tied off of explore mission
+arealist = ["a jungle", "a haunted house", "a castle"]
+area = random.choice(arealist)
+extraarea = ["This place contains a link to one PC's past."]
+
+#monsters
+monsterlist = ["a dragon", "a hag", "a lich"]
+monster = random.choice(monsterlist)
+extramonster = ["The monster tries to convince PCs to switch sides."]
+
+
+    
+if questM == "recover":
+    target.append(treasure)
+    extra.extend(extratreasure)
+elif questM == "locate":
+    target.append(victim)
+    extra.extend(extravictim)
+    if danger == 1:
+        death += 8
+elif questM == "collect":
+    target.append(collection)
+    extra.extend(extracollect)
+    subject.append(collector)
+    sTag = 1
+elif questM == "explore":
+    target.append(area)
+    extra.extend(extraarea)
+elif questM == "destroy":
+    target.append(monster)
+    extra.extend(extramonster)
+    
+
+x = random.randint(1, 10)
+if x <= death:
+    deathchance = 1
+
+      
+questT = random.choice(target)
+questS = random.choice(subject)
+
+
+
+skill = ["Climb ", "Stealth ", "Bluff "]
+
+
+
+size = random.randint(1,5)
+print("There are %s encounters in this quest" % size)
+if size >= 3:
+    print("This quest takes place within a dungeon")
+
+miscextra = [("Someone tries to kidnap a PC.") , ("A skrimish breaks out between unrelated parties.")]
+extra.extend(miscextra)
+
+#explore quests do not take place in any given location
+if questM != "explore":
+    print("This quest takes place in %s" % (questLoc))
+print( "Your quest is to %s %s" % (questM, questT))
+if sTag == 1:
+    print("Return the %s to %s" (questT, questS))
+if questM == "locate":
+    if deathchance == 1:
+        print("The victim is dead.")
+print(random.choice(skill) + "will be helpful")
+twist = random.randint(0, 10)
+if twist == 5:
+    print(random.choice(extra))
