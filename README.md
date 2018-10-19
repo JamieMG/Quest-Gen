@@ -1,2 +1,2 @@
 # Quest-Gen
-Pathfinder quest generator for python
+ttrpg quest generator for python
